@@ -42,7 +42,7 @@ if (!($existingClients -contains $MachineName)) {
 }
 $currentLocation = Get-Location;
 Set-Location -LiteralPath $BASE_EASYRSA_PATH;
-& './easyrsa' 'revoke' $MachineName $Reason;
+'yes' | ./easyrsa revoke $MachineName $Reason;
 [string] $capwd = ConvertFrom-SecureString -SecureString $CAPassword -AsPlainText -WarningAction SilentlyContinue;
 [System.Environment]::SetEnvironmentVariable('EASYRSA_PASSIN', "pass:$($capwd)");
 & './easyrsa' 'gen-crl';
