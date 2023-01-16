@@ -23,7 +23,7 @@ PARAM (
     [Parameter(Mandatory = $true, ParameterSetName = 'ByUri')]
     [Parameter(ParameterSetName = 'ByConfig')]
     [ValidateNotNullOrEmpty()]
-    [string] $Pass,
+    [securestring] $Password,
 
     [Parameter(Mandatory = 'true', ParameterSetName = 'ByConfig')]
     [ValidateSet('Strato', 'No-IP')]
@@ -102,6 +102,7 @@ function script:Get-UpdateUri() {
 $externalIpAddress = script:Get-ExternalIp;
 $apiUrl = script:Get-UpdateUri;
 $apiUrl = "$($apiUrl)/nic/update?hostname=$($DomainName)&myip=$($externalIpAddress)";
+$Pass = ConvertFrom-SecureString -SecureString $Password -AsPlainText;
 $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($UserName):$($Pass)"));
 $encodedCreds = "Basic $($encodedCreds)";
 $headers = @{ Authorization = $encodedCreds };
