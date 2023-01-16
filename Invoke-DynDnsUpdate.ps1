@@ -35,7 +35,7 @@ $STRATO_CFG = [PSCustomObject]@{
     UserAgent = 'SchleeKe - Invoke-DynDnsUpdate - 1.0.0.0 - https://github.com/schleeke/ubuntu-scripts'
 }
 $NOIP_CFG = [PSCustomObject]@{
-    Uri = ''
+    Uri = 'https://dynupdate.no-ip.com'
     UserAgent = 'SchleeKe DynDNS/6.3-1.0.0.0 schleeke@github.com'
 }
 
