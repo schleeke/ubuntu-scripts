@@ -143,6 +143,7 @@ else {
     $encodedCreds = $webResult.Content.Trim();
 }
 if ($encodedCreds.StartsWith('good') -or $encodedCreds.StartsWith('nochg')) {
+    Write-Output $encodedCreds;
     return;
 }
 Write-Error -Message "An DynDNS update error occured. Server answer: $($encodedCreds).";

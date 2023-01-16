@@ -17,7 +17,11 @@ PARAM (
 
     [Parameter(Mandatory=$false)]
     [ValidateNotNullOrEmpty()]
-    [string] $GroupName = 'openvpn-admin'
+    [string] $GroupName = 'openvpn-admin',
+
+    [Parameter(Mandatory = $false)]
+    [ValidateNotNullOrEmpty()]
+    [string] $EASYRSA_BIN_PATH = '/etc/openvpn/easy-rsa/easyrsa'
 )
 
 function Script:Set-OwnershipAndRights($Object, [string] $GroupName) {
@@ -54,3 +58,4 @@ function Script:Set-OwnershipAndRights($Object, [string] $GroupName) {
 
 [System.IO.DirectoryInfo] $openvpnDirectory = [System.IO.DirectoryInfo]::new($LiteralPath);
 Script:Set-OwnershipAndRights -Object $openvpnDirectory -GroupName $GroupName;
+sudo chmod +x $EASYRSA_BIN_PATH;
