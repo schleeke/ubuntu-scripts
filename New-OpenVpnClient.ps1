@@ -27,13 +27,11 @@
 #>
 [CmdletBinding(DefaultParameterSetName = 'WithPwd')]
 PARAM (
-    [Parameter(Mandatory = $true, ParameterSetName = 'WithPwd')]
-    [ValidateNotNullOrEmpty()]
+    [Parameter(ParameterSetName = 'WithPwd')]
     [securestring] $Password,
 
-    [Parameter(Mandatory = $true, ParameterSetName = 'WithPwd')]
+    [Parameter(ParameterSetName = 'WithPwd')]
     [Parameter(ParameterSetName = 'WithoutPwd')]
-    [ValidateNotNullOrEmpty()]
     [securestring] $CAPassword,
 
     [Parameter(Mandatory = $true, ValueFromPipeline = $true, ParameterSetName = 'WithPwd')]
@@ -56,6 +54,12 @@ PARAM (
     [string] $FILE_OWNER = 'root:openvpn-admin'
 )
 
+if ($null -eq $Password) {
+  $Password = Read-Host -AsSecureString -Prompt 'Enter password for client config ';
+}
+if ($null -eq $CAPassword) {
+  $CAPassword = Read-Host -AsSecureString -Prompt 'Enter password for CA private key ';
+}
 Write-Host 'Creating new OpenVPN client certificate...';
 $currentLocation = Get-Location;
 Set-Location -LiteralPath $BASE_EASYRSA_PATH;
