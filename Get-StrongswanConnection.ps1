@@ -1,7 +1,11 @@
 <#
+.SYNOPSIS
+  Gets the active strongswan client connections.
+.DESCRIPTION
+  Parses 'ipsec statusall' to retrieve information concerning connected clients.
 #>
+[CmdletBinding()]
 PARAM ()
-
 [string[]] $lines = ipsec statusall;
 [int] $minIndex = 0;
 [int] $maxIndex = $lines.Count - 1;
@@ -11,7 +15,7 @@ for ($counter = $minIndex; $counter -le $maxIndex; $counter++) {
     if ([string]::IsNullOrEmpty($currentLine)) {
         continue; }
     if ($currentLine.StartsWith('Security Associations (') -and $currentLine.EndsWith('):')) {
-        $sectionReached = $true;
+        $sectionReached = $true;        
         [string] $upClients = $currentLine.Substring('Security Associations ('.Length);
         $upClients = $upClients.Substring(0, $upClients.Length - '):'.Length);
         [string[]] $parts = $upClients -split ',';
@@ -53,6 +57,5 @@ for ($counter = $minIndex; $counter -le $maxIndex; $counter++) {
         $newUser.ClientExternal = $tmp.Substring(0, $index);
         $tmp = $tmp.Substring($index + 1);
         $newUser.ClientInternal = $tmp.Substring(0, $tmp.Length - 1);
-        Write-Output $newUser;
-    }
+        Write-Output $newUser; }
 }
